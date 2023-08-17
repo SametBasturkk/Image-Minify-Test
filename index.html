@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Image Upload and Compression Tool">
+    <meta name="keywords" content="image upload, compression, SEO">
+    <title>Image Upload and Compression</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Include custom CSS -->
+    <style>
+        body {
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .custom-file-input {
+            cursor: pointer;
+        }
+
+        .custom-file-input::-webkit-file-upload-button {
+            cursor: pointer;
+        }
+
+        .progress-container {
+            position: relative;
+            height: 10px;
+            margin-bottom: 15px;
+            background-color: #e9ecef;
+        }
+
+        .progress-bar {
+            background-color: #007bff;
+            transition: width 0.3s;
+            width: 0;
+            /* Initialize width to 0 */
+        }
+
+        .notification {
+            display: none;
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .comparison-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            /* Align images and text at the top */
+            margin-top: 20px;
+        }
+
+        .image-container {
+            max-width: 48%;
+        }
+
+        .image-container img {
+            max-width: 100%;
+        }
+
+        .compression-info {
+            font-size: 20px;
+            color: #155724;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .save-button {
+            display: none;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container mt-5">
+        <h2 class="mb-4">Image Compression</h2>
+    
+        <form id="imageUploadForm" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="imageFile">Choose an image file:</label>
+                <div class="custom-file">
+                    <input type="file" class="custom-file-input" id="imageFile" name="file" accept="image/*">
+                    <label class="custom-file-label" for="imageFile">Choose file</label>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="quality">Image Quality (0-100):</label>
+                <input type="number" class="form-control" id="quality" name="quality" min="0" max="100" value="40">
+            </div>
+            <button type="submit" class="btn btn-primary">Upload and Compress Image</button>
+        </form>
+        <div class="progress-container">
+            <div id="progressBar" class="progress-bar" role="progressbar"></div>
+        </div>
+        <div class="notification success" id="successMessage">Image uploaded and compressed successfully.</div>
+        <div class="notification error" id="errorMessage">An error occurred during image upload and compression.</div>
+        <div class="comparison-container">
+            <div class="image-container" id="beforeContainer">
+                <h4>Before Compression</h4>
+                <img id="imagePreview" src="#" alt="Selected Image" style="display: none;">
+            </div>
+            <div class="image-container" id="afterContainer">
+                <h4>After Compression</h4>
+                <img id="responseImage" src="#" alt="Compressed Image" style="display: none;">
+                <p class="compression-info" id="compressionInfo"></p>
+                <a class="btn btn-primary save-button" id="saveButton" href="#" download="compressed_image.jpg">Save
+                    Compressed Image</a>
+            </div>
+        </div><br><br><br><br>
+                <p>Welcome to our Image Upload and Compression Tool! This powerful tool provides a seamless way to upload and
+                    compress your images, enhancing your website's performance without sacrificing quality. Let's explore the
+                    advantages:</p>
+                
+                <h3>Advantages of Using Our Tool</h3>
+                <ul>
+                    <li><strong>Improved Website Performance:</strong> Compressed images load faster, ensuring a smooth browsing
+                        experience for your users.</li>
+                    <li><strong>Search Engine Optimization (SEO):</strong> Optimized images contribute to better SEO rankings,
+                        increasing your website's visibility.</li>
+                    <li><strong>User Experience Enhancement:</strong> Quick-loading images lead to reduced bounce rates and higher
+                        user engagement.</li>
+                    <li><strong>Easy to Use:</strong> Our user-friendly interface makes uploading and compressing images a breeze.
+                    </li>
+                    <li><strong>Customizable Compression Quality:</strong> Choose the desired compression quality to strike a
+                        balance between image size and visual appeal.</li>
+                    <li><strong>Instant Preview:</strong> Compare original and compressed images side by side before saving.</li>
+                    <li><strong>Effortless Download:</strong> Save the compressed image with a single click, ready to be used on
+                        your website or social media.</li>
+                </ul>
+                
+                <h3>How It Works</h3>
+                <p>Using our tool is simple:</p>
+                <ol>
+                    <li>Click the "Choose file" button to select an image from your device.</li>
+                    <li>Adjust the compression quality using the provided slider (0-100).</li>
+                    <li>Click "Upload and Compress Image" to start the process.</li>
+                    <li>Observe the real-time progress bar as your image is uploaded and compressed.</li>
+                    <li>Once complete, view the "Before" and "After" images to compare the results.</li>
+                    <li>Download the compressed image using the "Save Compressed Image" button.</li>
+                </ol>
+                
+                <p>Experience the benefits of optimized images today! Enhance your website's performance and user satisfaction with
+                    our Image Upload and Compression Tool.</p>
+    </div>
+
+    <!-- Include Axios -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- ... (previous code) ... -->
+    
+<script>
+    document.getElementById('imageUploadForm').addEventListener('submit', async function (event) {
+        event.preventDefault();
+
+        const form = event.target;
+        const formData = new FormData(form);
+
+        const progressBar = document.getElementById('progressBar');
+        const successMessage = document.getElementById('successMessage');
+        const errorMessage = document.getElementById('errorMessage');
+        const saveButton = document.getElementById('saveButton');
+        const compressionInfo = document.getElementById('compressionInfo');
+
+        try {
+            errorMessage.style.display = 'none';
+            progressBar.style.width = '0%';
+
+            const response = await axios.post('http://135.181.46.214:8085/uploadImage', formData, {
+                crossOriginIsolated: true,
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                },
+                onUploadProgress: function (progressEvent) {
+                    const progress = (progressEvent.loaded / progressEvent.total) * 100;
+                    progressBar.style.width = progress + '%';
+                },
+                responseType: 'arraybuffer'
+            });
+
+            progressBar.style.width = '100%';
+            successMessage.style.display = 'block';
+
+            const originalSize = formData.get('file').size;
+            const compressedSize = response.data.byteLength;
+            const compressedSizeKB = Math.round(compressedSize / 1024); 
+            const compressionRatio = Math.round((1 - compressedSize / originalSize) * 100);
+            compressionInfo.textContent = `File compressed by ${compressionRatio}% to ${compressedSizeKB} KB`;
+            compressionInfo.style.display = 'block';
+            compressionInfo.style.color = '#00a000';
+            compressionInfo.style.fontSize = '24px';
+
+            // Detect image format based on the image data
+            const uint8Array = new Uint8Array(response.data);
+            const firstByte = uint8Array[0];
+
+            let mimeType, fileExtension;
+
+            if (firstByte === 0x89) {
+                // PNG image (PNG header starts with 89 50 4E 47)
+                mimeType = 'image/png';
+                fileExtension = 'png';
+            } else {
+                // JPEG image
+                mimeType = 'image/jpeg';
+                fileExtension = 'jpg';
+            }
+
+            // Convert the arraybuffer to a Blob
+            const compressedImageBlob = new Blob([response.data], { type: mimeType });
+            const compressedImageUrl = URL.createObjectURL(compressedImageBlob);
+
+            const responseImage = document.getElementById('responseImage');
+            responseImage.src = compressedImageUrl;
+            responseImage.style.display = 'block';
+
+            saveButton.style.display = 'block';
+            saveButton.href = compressedImageUrl;
+            saveButton.download = `compressed_image.${fileExtension}`;
+        } catch (error) {
+            console.error(error);
+            errorMessage.style.display = 'block';
+        }
+    });
+
+
+        document.getElementById('imageFile').addEventListener('change', function (event) {
+            const imagePreview = document.getElementById('imagePreview');
+            const beforeContainer = document.getElementById('beforeContainer');
+            const afterContainer = document.getElementById('afterContainer');
+            const saveButton = document.getElementById('saveButton');
+            const compressionInfo = document.getElementById('compressionInfo');
+            const file = event.target.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    imagePreview.src = e.target.result;
+                    imagePreview.style.display = 'block';
+                    beforeContainer.style.display = 'block';
+                    afterContainer.style.display = 'none';
+                    compressionInfo.style.display = 'none';
+                    saveButton.style.display = 'none';
+                };
+
+                reader.readAsDataURL(file);
+            } else {
+                imagePreview.style.display = 'none';
+                beforeContainer.style.display = 'none';
+                afterContainer.style.display = 'none';
+                compressionInfo.style.display = 'none';
+                saveButton.style.display = 'none';
+            }
+        });
+
+        document.getElementById('responseImage').addEventListener('load', function () {
+            const afterContainer = document.getElementById('afterContainer');
+            const saveButton = document.getElementById('saveButton');
+            afterContainer.style.display = 'block';
+            saveButton.style.display = 'block';
+        });
+    </script>
+
+</body>
+
+</html>
